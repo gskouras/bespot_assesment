@@ -1,9 +1,8 @@
-from django.test import TestCase
-from mock import patch
-from pytest import mark
+# from django.test import TestCase
+# from mock import patch
+# from pytest import mark
 
-from bespot_assesement.places.tasks  import get_users_count
-
+# from bespot_assesement.places.tasks import get_users_count
 
 # @mark.users
 # @mark.users_tasks

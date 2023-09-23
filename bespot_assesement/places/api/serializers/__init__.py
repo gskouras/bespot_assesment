@@ -1,1 +1,1 @@
-from .places import PlaceSerializer
+from .places import PlaceReadSerializer, PlaceSerializer

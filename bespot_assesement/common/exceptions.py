@@ -6,6 +6,7 @@ class ProjectAPIException(APIException):
     """
     Base class for all custom exceptions inside the application.
     """
+
     status_code: int = HTTP_400_BAD_REQUEST
 
     def __init__(self, detail: str, code: int = HTTP_400_BAD_REQUEST):

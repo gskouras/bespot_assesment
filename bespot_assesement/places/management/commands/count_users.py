@@ -8,7 +8,6 @@ logger = getLogger(__name__)
 
 
 class Command(BaseCommand):
-
     def handle(self, *args: Any, **options: Any) -> None:
         """
         Run the command.

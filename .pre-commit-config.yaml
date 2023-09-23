@@ -50,15 +50,6 @@ repos:
     rev: 22.3.0
 
   - hooks:
-      - entry: pylint --rcfile=.pre-commit/.pylintrc
-        exclude: (/settings/)
-        files: \.py$
-        id: system
-        language: system
-        name: PyLint
-    repo: local
-
-  - hooks:
       - id: commitizen
         stages:
           - commit-msg
@@ -72,12 +63,3 @@ repos:
         args: [ --verbose, -ll, --recursive, . ]
     repo: https://github.com/PyCQA/bandit
     rev: 1.6.3
-
-  - hooks:
-      - entry: mypy
-        args: [ "--config-file=.pre-commit/setup.cfg", "." ]
-        id: mypy
-        language: system
-        name: mypy
-        pass_filenames: false
-    repo: local

@@ -22,7 +22,6 @@ def create_superuser(apps, schema_editor):
         superuser.save()
 
 
-
 class Migration(migrations.Migration):
 
     operations = [migrations.RunPython(create_superuser)]

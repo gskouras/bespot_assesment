@@ -2,9 +2,11 @@ import uuid
 
 from django.db import models
 
+
 class Location(models.Model):
     lat = models.FloatField()
     lon = models.FloatField()
+
 
 class Place(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
@@ -13,8 +15,5 @@ class Place(models.Model):
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     reward_checkin_points = models.IntegerField()
-    tags = models.ManyToManyField('Tag')
+    tags = models.JSONField()
     type = models.CharField(max_length=20)
-
-class Tag(models.Model):
-    name = models.CharField(max_length=20)

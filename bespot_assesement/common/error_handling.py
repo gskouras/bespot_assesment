@@ -1,6 +1,7 @@
 import traceback
 from logging import getLogger
 from typing import List
+
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db.utils import DatabaseError, IntegrityError
@@ -23,6 +24,7 @@ from rest_framework.status import (
     HTTP_405_METHOD_NOT_ALLOWED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
+
 from bespot_assesement.common.exceptions import ProjectAPIException
 
 logger = getLogger(__name__)
@@ -173,6 +175,3 @@ def error_handler(exc, context):
         if settings.DEBUG:
             r.data["stacktrace"] = traceback.format_exc()
     return r
-
-
-

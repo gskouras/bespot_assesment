@@ -341,4 +341,3 @@ SWAGGER_SETTINGS = {
 # Django Health Check
 # ------------------------------------------------------------------------------
 REDIS_URL = env.str("CELERY_BROKER_URL")
-

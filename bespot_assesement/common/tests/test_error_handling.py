@@ -23,17 +23,16 @@ from rest_framework.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 
-from bespot_assesement.common.exceptions import (
-    ProjectAPIException,
-)
 from bespot_assesement.common.error_handling import (
+    error_handler,
     get_exception_handling_dict,
     stringify_detail_exception,
+    stringify_django_validation_errors,
     stringify_exception,
     stringify_validation_errors,
-    stringify_django_validation_errors,
-    error_handler,
 )
+from bespot_assesement.common.exceptions import ProjectAPIException
+
 
 @mark.common
 @mark.common_exceptions
@@ -233,7 +232,6 @@ class TestException(TestCase):
             },
         )
 
-
     def test_get_exception_handling_dict_api_error(self):
         exception = APIException("Error")
 
@@ -276,13 +274,12 @@ class TestException(TestCase):
             },
         )
 
-
     @patch("bespot_assesement.common.error_handling.settings")
-    @patch("bespot_assesement.common.error_handling."
-           "get_exception_handling_dict")
-    def test_error_handler_handled_exception(
-        self, get_dict, settings
-    ):
+    @patch(
+        "bespot_assesement.common.error_handling."
+        "get_exception_handling_dict"
+    )
+    def test_error_handler_handled_exception(self, get_dict, settings):
         exception = Exception("test")
         context = MagicMock()
         settings.DEBUG = True
@@ -294,14 +291,13 @@ class TestException(TestCase):
         error_handler(exception, context)
 
     @patch("bespot_assesement.common.error_handling.settings")
-    @patch("bespot_assesement.common.error_handling."
-           "get_exception_handling_dict")
-    def test_error_handler_unhandled_exception(
-        self, get_dict, settings
-    ):
+    @patch(
+        "bespot_assesement.common.error_handling."
+        "get_exception_handling_dict"
+    )
+    def test_error_handler_unhandled_exception(self, get_dict, settings):
         exception = Exception("test")
         context = MagicMock()
         settings.DEBUG = True
         get_dict.side_effect = AttributeError("Error")
         error_handler(exception, context)
-

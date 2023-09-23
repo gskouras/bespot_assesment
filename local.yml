@@ -26,7 +26,7 @@ services:
   postgres:
     build:
       context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
+      dockerfile: ./compose/local/postgres/Dockerfile
     image: bespot_assesement_local_postgres
     restart: unless-stopped
     container_name: bespot_assesement_postgres
@@ -37,14 +37,11 @@ services:
       - local_postgres_data_backups:/backups:z
     env_file:
       - ./.envs/.local/.postgres
-  
+
   redis:
     image: redis:5.0
     restart: unless-stopped
     container_name: bespot_assesement_redis
-  
-
-  
 
   celeryworker:
     <<: *django

@@ -49,8 +49,6 @@ test:
 	docker-compose -f local.yml run --rm django coverage json --rcfile=.pre-commit/setup.cfg;
 	docker-compose -f local.yml run --rm django coverage xml -i --rcfile=.pre-commit/setup.cfg;
 
-
-
 swaggerhub:
 	docker-compose -f local.yml run --rm django python manage.py generate_swagger test.yaml -u https://bespot_assesement.herokuapp.com --api-version 1.0.0
 

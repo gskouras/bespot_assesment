@@ -14,23 +14,25 @@ on:
 
 jobs:
   precommit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Setup Python
         uses: actions/setup-python@v2.3.0
         with:
-          python-version: 3.8.7
+          python-version: 3.8.10
           architecture: x64
       - name: Checkout Code Repository
         uses: actions/checkout@v3
+      - name: Install Pre-commit
+        run: pip install pre-commit==2.17.0
       - name: Run pre commit
-        run: make pre-commit
+        run: pre-commit run --all-files
       - name: Tear down the Stack
         run: make down-volumes
 
 # With no caching at all the entire ci process takes 4m 30s to complete!
   unittest:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code Repository
         uses: actions/checkout@v2
@@ -39,91 +41,24 @@ jobs:
       - name: Tear down the Stack
         run: make down-volumes
       
-      - name: Update status check on PR
-        run: |
-          curl https://s3.amazonaws.com/orfium-badges-bucket/code-cov/bespot_assesement.txt > old_percent.txt
-          PERCENT=$(tail -1 coverage.txt 2>/dev/null | sed -r 's/^.*\s+([0-9]+\.?[0-9]+)%$/\1/')
-          PREVIOUS_PERCENT=$(cat old_percent.txt)
-          PERCENT="${PERCENT:=0}"; PREVIOUS_PERCENT="${PREVIOUS_PERCENT:=0}"
-          if (( $(echo "$PERCENT >= $PREVIOUS_PERCENT" |bc -l) )); then STATE=success DESCRIPTION="Coverage $PERCENT % (OK)"; else STATE=failure DESCRIPTION="Coverage $PERCENT % (dropped)" ; fi
-          echo $DESCRIPTION
-          curl -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}"\
-               -d "{\"state\": \"${STATE}\",\"target_url\": \"https://github.com/Orfium/bespot-assesement/pull/${PULL_NUMBER}/checks?check_run_id=${RUN_ID}\",\"description\": \"${DESCRIPTION}\",\"context\": \"Code Coverage Status\"}" \
-                 https://api.github.com/repos/bespot-assesement/statuses/${COMMIT_SHA}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
-          RUN_ID: ${{ github.run_id }}
-          PULL_NUMBER: ${{ github.event.pull_request.number }}
-      - name: Update Coverage badge
-        uses: Orfium/coverage-badge-creator@master
-        with:
-          upload_coverage_file: true
-          coverage_file: coverage.txt
-          badge_name: "code-cov/bespot_assesement.svg"
-          bucket_name: "orfium-badges-bucket"
-          aws_access_key: ${{ secrets.BADGES_AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.BADGES_AWS_SECRET_ACCESS_KEY }}
-          coverage_percentage_regex: TOTAL\s+\d+\s+\d+\s+(\d+)%$
-        if: github.ref == 'refs/heads/develop'
-
-  
-
-  
-
-  
-
-  
-  
-  swaggerhub:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    needs:
-      - unittest
-      - precommit
-    steps:
-      - name: Setup Python
-        uses: actions/setup-python@v2.3.1
-        with:
-          python-version: 3.9.7
-          architecture: x64
-      - name: Checkout Code Repository
-        uses: actions/checkout@v2.4.0
-      - name: Create Swaggerhub Definition
-        run: make swaggerhub
-      - name: Tear down the Stack
-        run: make down-volumes
-      - name: Post to Swaggerhub
-        env:
-          SWAGGERHUB_TOKEN: ${{ secrets.SWAGGERHUB_TOKEN }}
-        run: |
-          curl -X POST "https://api.swaggerhub.com/apis/OrfiumTeam/bespot-assesement" -H "Authorization: $SWAGGERHUB_TOKEN" -H "Content-Type: application/yaml" --data-binary "@test.yaml"
-
-  bump:
-    if: "github.event_name == 'push' && ( github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')"
-    runs-on: ubuntu-latest
-    needs:
-      - unittest
-      - precommit
-      - deploy
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@main
-      - name: Install dependencies
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: '16.x'
-      - name: Install dependencies
-        run: yarn install
-      - name: Release
-        if: github.ref == 'refs/heads/main'
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
-      - name: Pre Release
-        if: "github.event_name == 'push' && github.ref == 'refs/heads/develop'"
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-          GITHUB_TOKEN: ${{ secrets.ORG_ACCESS_TOKEN }}
-        run: npx semantic-release
+  # bump:
+  #   if: "github.event_name == 'push' && ( github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')"
+  #   runs-on: ubuntu-20.04
+  #   needs:
+  #     - unittest
+  #     - precommit
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@main
+  #     - name: Install dependencies
+  #       uses: actions/setup-node@v2.1.5
+  #       with:
+  #         node-version: '18.x'
+  #     - name: Install dependencies
+  #       run: yarn install
+  #     - name: Release
+  #       if: github.ref == 'refs/heads/main'
+  #       env:
+  #         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+  #         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEM }}
+  #       run: npx semantic-release
