@@ -1,0 +1,29 @@
+pytz==2021.3  # https://github.com/stub42/pytz
+python-slugify==5.0.2  # https://github.com/un33k/python-slugify
+Pillow==8.4.0  # https://github.com/python-pillow/Pillow
+argon2-cffi==21.1.0  # https://github.com/hynek/argon2_cffi
+whitenoise==5.3.0 # https://github.com/evansd/whitenoise
+redis==4.0.1  # https://github.com/andymccurdy/redis-py
+hiredis==2.0.0  # https://github.com/redis/hiredis-py
+celery==5.2.3  # https://github.com/celery/celery
+django-celery-beat==2.2.1  # https://github.com/celery/django-celery-beat
+django-celery-results==2.3.0  # https://github.com/celery/django-celery-results
+flower==1.0.0  # https://github.com/mher/flower
+uvicorn[standard]==0.15.0  # https://github.com/encode/uvicorn
+psutil==5.9.0  # https://github.com/giampaolo/psutil
+
+# Django
+# ------------------------------------------------------------------------------
+django==3.2.9  # https://www.djangoproject.com/
+django-environ==0.8.1  # https://github.com/joke2k/django-environ
+django-model-utils==4.2.0  # https://github.com/jazzband/django-model-utils
+django-crispy-forms==1.13.0  # https://github.com/django-crispy-forms/django-crispy-forms
+django-redis==5.0.0  # https://github.com/jazzband/django-redis
+django-timezone-field==4.2.1  # https://github.com/mfogel/django-timezone-field/
+django-csp==3.7  # https://github.com/mozilla/django-csp
+django-health-check==3.16.5  # https://github.com/KristianOellegaard/django-health-check
+# Django REST Framework
+djangorestframework==3.12.4  # https://github.com/encode/django-rest-framework
+django-cors-headers==3.10.0 # https://github.com/adamchainz/django-cors-headers
+drf-yasg==1.20.0 # https://github.com/axnsan12/drf-yasg
+

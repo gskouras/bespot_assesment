@@ -1,0 +1,17 @@
+# General
+# ------------------------------------------------------------------------------
+IPYTHONDIR=/app/.ipython
+
+ADMIN_EMAIL=admin@admin.com
+ADMIN_PASSWORD=admin
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND = 'django-db'
+
+
+# Flower
+CELERY_FLOWER_USER=admin
+CELERY_FLOWER_PASSWORD=admin
+

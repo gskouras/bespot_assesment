@@ -1,0 +1,78 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: bespot_assesement_local_django
+    restart: unless-stopped
+    container_name: bespot_assesement_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: bespot_assesement_local_postgres
+    restart: unless-stopped
+    container_name: bespot_assesement_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+      - local_postgres_data_backups:/backups:z
+    env_file:
+      - ./.envs/.local/.postgres
+  
+  redis:
+    image: redis:5.0
+    restart: unless-stopped
+    container_name: bespot_assesement_redis
+  
+
+  
+
+  celeryworker:
+    <<: *django
+    image: bespot_assesement_local_celeryworker
+    restart: unless-stopped
+    container_name: bespot_assesement_celeryworker
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: bespot_assesement_local_celerybeat
+    restart: unless-stopped
+    container_name: bespot_assesement_celerybeat
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: bespot_assesement_local_flower
+    restart: unless-stopped
+    container_name: bespot_assesement_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower

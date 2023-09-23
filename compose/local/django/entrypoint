@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+
+# N.B. If only .env files supported variable expansion...
+export CELERY_BROKER_URL="${REDIS_URL}"
+
+
+
+if [ -z "${POSTGRES_USER:-${POSTGRES_username}}" ]; then
+    base_postgres_image_default_user='postgres'
+    export POSTGRES_USER="${base_postgres_image_default_user}"
+fi
+export DATABASE_URL="postgres://${POSTGRES_USER:-${POSTGRES_username}}:${POSTGRES_PASSWORD:-${POSTGRES_password}}@${POSTGRES_HOST:-${POSTGRES_host}}:${POSTGRES_PORT:-${POSTGRES_port}}/${POSTGRES_DB:-${POSTGRES_dbname}}"
+
+if [ -v SHARED_POSTGRES_USER ] || [ -v SHARED_POSTGRES_username ]; then
+    export SHARED_DATABASE_URL="postgres://${SHARED_POSTGRES_USER:-${SHARED_POSTGRES_username}}:${SHARED_POSTGRES_PASSWORD:-${SHARED_POSTGRES_password}}@${SHARED_POSTGRES_HOST:-${SHARED_POSTGRES_host}}:${SHARED_POSTGRES_PORT:-${SHARED_POSTGRES_port}}/${SHARED_POSTGRES_DB:-${SHARED_POSTGRES_dbname}}"
+fi
+
+postgres_ready() {
+python << END
+import sys
+
+import psycopg2
+
+try:
+    psycopg2.connect(
+        dbname="${POSTGRES_DB:-${POSTGRES_dbname}}",
+        user="${POSTGRES_USER:-${POSTGRES_username}}",
+        password="${POSTGRES_PASSWORD:-${POSTGRES_password}}",
+        host="${POSTGRES_HOST:-${POSTGRES_host}}",
+        port="${POSTGRES_PORT:-${POSTGRES_port}}",
+    )
+except psycopg2.OperationalError:
+    sys.exit(-1)
+sys.exit(0)
+
+END
+}
+until postgres_ready; do
+  >&2 echo 'Waiting for PostgreSQL to become available...'
+  sleep 1
+done
+>&2 echo 'PostgreSQL is available'
+
+exec "$@"
