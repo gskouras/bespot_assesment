@@ -16,7 +16,7 @@ psutil==5.9.0  # https://github.com/giampaolo/psutil
 # ------------------------------------------------------------------------------
 django==3.2.9  # https://www.djangoproject.com/
 django-environ==0.8.1  # https://github.com/joke2k/django-environ
-django-model-utils==4.2.0  # https://github.com/jazzband/django-model-utils
+django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
 django-crispy-forms==1.13.0  # https://github.com/django-crispy-forms/django-crispy-forms
 django-redis==5.0.0  # https://github.com/jazzband/django-redis
 django-timezone-field==4.2.1  # https://github.com/mfogel/django-timezone-field/
