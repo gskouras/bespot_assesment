@@ -1,6 +1,7 @@
 from typing import Type
 
 from django.core.cache import cache
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework.serializers import BaseSerializer
 from rest_framework.viewsets import GenericViewSet
@@ -25,6 +26,10 @@ class PlaceViewSet(
 ):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
+    filterset_fields = ["name", "address", "uuid"]
+    ordering_fields = ["name", "address", "uuid"]
+    ordering = ["address", "name"]
+    filter_backends = (OrderingFilter, SearchFilter)
 
     def list(self, request, *args, **kwargs):
         # Define a cache key specific to this view

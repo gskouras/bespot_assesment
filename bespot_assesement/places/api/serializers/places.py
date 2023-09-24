@@ -11,19 +11,22 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class PlaceSerializer(serializers.ModelSerializer):
-    location = LocationSerializer()
+    location = LocationSerializer(required=False)
 
     class Meta:
         model = Place
         exclude = ("id",)
 
     def create(self, validated_data):
-        location_data = validated_data.pop("location")
-        # Create or update the Location instance
-        location, _ = Location.objects.get_or_create(**location_data)
+        if validated_data.get("location"):
+            location_data = validated_data.pop("location")
+            # Create or update the Location instance
+            location, _ = Location.objects.get_or_create(**location_data)
 
-        # Create the Place instance
-        place = Place.objects.create(location=location, **validated_data)
+            # Create the Place instance
+            place = Place.objects.create(location=location, **validated_data)
+        else:
+            place = Place.objects.create(**validated_data)
 
         return place
 

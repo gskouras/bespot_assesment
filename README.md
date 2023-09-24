@@ -45,7 +45,7 @@ http://localhost:8000/swagger/
 ```
 
 ## Web Interface
-The web application is provided through the Django Admin Panel. A user can perform CRUID operations in Place models. Also he can perform search, filtering and sorting by address name, code and uuid. 
+The web application is provided through the Django Admin Panel. A user can perform CRUID operations in Place models. Also he can perform search, filtering and sorting by address, name, and uuid.
 
 It is available in the following URL:
 
@@ -74,7 +74,7 @@ make build
 
 ## Run Tests
 
-Unittests are implemented with the Python's unittest framework and are executed with pytest. Coverage is used to monitor the overall test coverage of the source code. 
+Unittests are implemented with the Python's unittest framework and are executed with pytest. Coverage is used to monitor the overall test coverage of the source code.
 
 ```bash
 make build
