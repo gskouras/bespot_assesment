@@ -73,3 +73,12 @@ services:
     ports:
       - "5555:5555"
     command: /start-flower
+
+  react-app:
+    build:
+      context: .
+      dockerfile: ./compose/local/react/Dockerfile
+    restart: unless-stopped
+    container_name: bespot_assesement_web_app
+    ports:
+      - "3000:3000"

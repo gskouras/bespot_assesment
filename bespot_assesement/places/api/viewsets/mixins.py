@@ -10,7 +10,6 @@ from rest_framework.response import Response
 
 class CreateClearedChachedModelMixin(CreateModelMixin):
     def create(self, request, *args, **kwargs):
-        # Clear the cache when a new object is created
         cache_key = "places_list"
         cache.delete(cache_key)
 
@@ -21,7 +20,20 @@ class UpdatebyUUIDMixin(UpdateModelMixin):
 
     lookup_field = "uuid"
 
+    def update(self, request, *args, **kwargs):
+        cache_key = "places_list"
+        cache.delete(cache_key)
+
+        return super().update(request, *args, **kwargs)
+
 
 class DestroyByUUIDMixin(DestroyModelMixin):
 
     lookup_field = "uuid"
+
+    def destroy(self, request, *args, **kwargs):
+        # Clear the cache when a new object is created
+        cache_key = "places_list"
+        cache.delete(cache_key)
+
+        return super().destroy(request, *args, **kwargs)

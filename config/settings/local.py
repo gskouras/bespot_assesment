@@ -24,7 +24,9 @@ CACHES = {
         "LOCATION": "redis://redis:6379/0",
     }
 }
-
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # Add any other allowed origins as needed
+]
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
