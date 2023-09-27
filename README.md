@@ -51,20 +51,20 @@ http://localhost:8000/swagger/
 ```
 
 ## Web Interface
-The web application is provided through the Django Admin Panel. A user can perform CRUID operations in Place models. Also he can perform search, filtering and sorting by address, name, and uuid.
+The web application is provided through the Django Admin Panel. A user can perform CRUID operations in Place models. Also, he can perform search, filtering, and sorting by address, name, and uuid.
 
-A superuser is created on the initialization phase. It is available in the following URL:
+A superuser is created in the initialization phase. It is available in the following URL:
 
 ```bash
 http://localhost:8000/admin/ (username: admin@admin.com, password: admin)
 ```
 
-Additionally, just for demonstration purposes of the Phase 3, a user can list and create places through a React Web Application.
+Additionally, just for demonstration purposes of Phase 3, a user can list and create places through a React Web Application.
 
-The React Application is available in the following url.
+The React Application is available in the following URL.
 
 ```bash
-http://localhost:8000/3000/ (username: admin@admin.com, password: admin)
+http://localhost:8000/3000/
 ```
 
 A user may also sort and search for Places depending on their names and codes.
@@ -92,7 +92,7 @@ make build
 
 ## Run Tests
 
-Unittests are implemented with the Python's unittest framework and are executed with pytest. Coverage is used to monitor the overall test coverage of the source code.
+Unit tests are implemented with Python's unit test framework and are executed with pytest. Coverage is used to monitor the overall test coverage of the source code.
 
 ```bash
 make test
@@ -100,13 +100,13 @@ make test
 
 ## CI/CD
 
-Github Actions is used as a CI/CD of the project. Currently it does only run linting and security check on the code with pre-commit tool and runs the unittests of the back-end application with pytest.
+GitHub Actions is used as a CI/CD of the project. Currently, it only runs linting and security checks on the code with the pre-commit tool and runs the unit tests of the back-end application with pytest.
 
 ## Final thoughts
 
-In summary, my approach in this project was to leverage the existing capabilities offered by Django Rest Framework (DRF) to streamline the development process. The utilization of the Viewset Class allowed for the effortless implementation of Create, Read, Update, Delete (CRUD) operations for the Places model. The primary additional code required pertained to the implementation of a caching mechanism. Similarly, the validation aspect was simplified, thanks to DRF's inherent features.
+In summary, my approach in this project was to leverage the existing capabilities offered by Django Rest Framework (DRF) to streamline the development process. Utilizing the Viewset Class allowed for the effortless implementation of Create, Read, Update, Delete (CRUD) operations for the Places model. The primary additional code required pertained to the implementation of a caching mechanism. Similarly, the validation aspect was simplified, thanks to DRF's inherent features.
 
-I designed the Location model to store precise geographic coordinates (latitude and longitude) separately, making it easier to handle location data. The Place model combines essential place details and offers flexibility by allowing optional fields like name and reward points, ensuring it can accommodate various types of places with diverse attributes. A potential enhancement could involve creating a separate Tag model with predefined choices. This would allow for a structured and standardized approach to categorizing places, making it easier to manage and filter places based on specific predefined tags, improving the organization and usability of the application.
+The Place model combines essential place details and offers flexibility by allowing optional fields like name and reward points, ensuring it can accommodate various types of places with diverse attributes. A potential enhancement could involve creating a separate Tag model with predefined choices. This would allow for a structured and standardized approach to categorizing places, making it easier to manage and filter places based on specific predefined tags, improving the organization and usability of the application.
 
 Furthermore, I adopted a centralized and uniform approach to error handling, ensuring consistency throughout the project. This strategy significantly reduced the need for extensive unit testing, as DRF already provides robust testing for its core functionality.
 
