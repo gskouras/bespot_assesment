@@ -1,11 +1,11 @@
 
 
-# Besport Technical Assignment
+# Bespot Technical Assignment
 
 
 ## Table of Contents
 
-- [Besport Technical Assignment](#besport-technical-assignment)
+- [Bespot Technical Assignment](#bespot-technical-assignment)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Prerequisites](#prerequisites)
