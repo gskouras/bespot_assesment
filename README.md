@@ -40,7 +40,7 @@ Redis serves a dual role within the application. First, it functions as a cachin
 
 As an additional component, Flower, a web-based monitoring tool for Celery, has been integrated into the stack. Flower provides a graphical user interface (GUI) for monitoring and managing Celery tasks, offering insights into task execution and system performance.
 
-Finally, for the front-end, React Framework is used as GUI interface to perform CRUID operations in the Place model.
+Finally, for the front-end, React Framework is used as GUI to perform CRUID operations in the Place model.
 
 ## API Documentation
 
