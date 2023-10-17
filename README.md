@@ -64,7 +64,7 @@ Additionally, just for demonstration purposes of Phase 3, a user can list and cr
 The React Application is available in the following URL.
 
 ```bash
-http://localhost:8000/3000/
+http://localhost:3000/
 ```
 
 A user may also sort and search for Places depending on their names and codes.
